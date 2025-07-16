@@ -1,0 +1,13 @@
+grpcio 
+grpcio-tools
+minio
+python-dotenv
+networkx
+matplotlib
+torch
+loguru
+tqdm
+tensorboard
+scipy
+loguru
+pymongo

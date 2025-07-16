@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package rl;
+
+service ReinforcementLearning {
+    rpc TrainModel (TrainRequest) returns (TrainResponse);
+    rpc Inference (InferenceRequest) returns (InferenceResponse);
+    rpc GetRewardPath (GetRewardPathRequest) returns (GetRewardPathResponse);
+}
+
+message TrainRequest {
+    string project_id = 1;
+    optional string transfer_learning_version = 2;
+    HypParams hyperparameters = 3;                
+}
+
+message TrainResponse {
+    string model_id = 1;
+}
+
+message InferenceRequest {
+    string project_id = 1;
+    string version = 2;
+    int32 previous_state = 3;
+    repeated int32 fire_nodes = 4;
+    repeated int32 agents_positions = 5;
+}
+
+message GetRewardPathRequest {
+    string project_id = 1;
+    string version = 2;
+    repeated int32 path = 3;
+    repeated int32 fire_nodes = 4;
+    repeated int32 agents_positions = 5;
+}
+
+message Path {
+    int32 init_node = 1;
+    int32 last_node = 2;
+    repeated int32 path = 3;
+}
+
+message InferenceResponse {
+    repeated Path predictions = 1;
+}
+
+message GetRewardPathResponse {
+    float reward = 1;
+}
+
+message HypParams {
+    optional float beta = 1;
+    optional float lr = 2;
+    optional int32 batch_size = 3;
+    optional int32 buffer_size = 4;
+    optional int32 episodes = 5;
+    optional float gamma = 6;
+    optional float epsilon = 7;
+    optional int32 congestion_threshold = 8;
+    optional int32 num_virtual_agents = 9;
+    optional float reward_exit = 10;
+    optional float reward_fire = 11;
+    optional float reward_invalid = 12;
+    optional float reward_valid = 13;
+    optional float reward_congestion = 14;
+}
