@@ -2,24 +2,25 @@ import grpc
 import src.grpc_server.evacuai_rl_pb2 as evacuai_rl_pb2
 import src.grpc_server.evacuai_rl_pb2_grpc as evacuai_rl_pb2_grpc
 
+
 def run_inference(
-        project_id, 
-        version: str = None, 
-        state: int = None, 
-        fire_nodes: list = [],
-        congestion_nodes: list = [],
-    ):
+    project_id,
+    version: str = None,
+    state: int = None,
+    fire_nodes: list = [],
+    congestion_nodes: list = [],
+):
     # Crie o canal gRPC e o stub
-    with grpc.insecure_channel('localhost:50051') as channel:
+    with grpc.insecure_channel("localhost:50051") as channel:
         stub = evacuai_rl_pb2_grpc.ReinforcementLearningStub(channel)
 
         # Crie a requisição para a inferência
         request = evacuai_rl_pb2.InferenceRequest(
             project_id=project_id,
             version=version,
-            previous_state=62,
-            fire_nodes = [49],
-            agents_positions=[41, 41, 41, 41, 41, 41]
+            previous_state=state,
+            fire_nodes=fire_nodes,
+            agents_positions=congestion_nodes,
         )
 
         # Faça a chamada gRPC
@@ -35,13 +36,11 @@ if __name__ == "__main__":
     project_id_sg11_02 = "5f53235fadca03762f0fd6080574dda9"
     project_id_sg11_completo = "990c6a85aef3adffe85242f3e6f4d7e1"
 
-    # model_id_sg11_01 = run_inference(project_id_sg11_01, version="20250609203631")
-    # model_id = run_inference(project_id_sg11_02, version="20250611203715")
-    # model_id = run_inference(project_id=project_id_sg11_completo, version="20250712185817")
-    model_id = run_inference(project_id_sg11_01, version="20250715132149")
-    print(f"Model trained with ID: {model_id}")
-
-    # # Exemplo de chamada para o método Inference
-    # state = 0  # exemplo de estado
-    # predictions = run_inference(state)
-    # print(f"Inference result: {predictions}")
+    return_iference = run_inference(
+        project_id_sg11_01,
+        version="20250715132149",
+        state=None,
+        fire_nodes=[],
+        congestion_nodes=[],
+    )
+    print(f"Return: {return_iference}")
