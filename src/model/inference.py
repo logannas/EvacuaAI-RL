@@ -32,7 +32,8 @@ class Inference:
         )
 
         buffer = io.BytesIO(model)
-        state_model = T.load(buffer)
+        device = T.device("cuda" if T.cuda.is_available() else "cpu")
+        state_model = T.load(buffer, map_location=device)
 
         self.model = Network(self.env.obs_size, self.env.n_actions)
         self.model.load_state_dict(state_model["model"])
