@@ -51,5 +51,5 @@ docker build -t evacuai-rl .
 2. Run the container:
 
 ```bash
-docker run -it --rm evacuai-rl
+docker run -p 50051:50051 --network host -it --rm evacuai-rl
 ```
